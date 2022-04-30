@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { FormEvent, useState, useEffect } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
 import {
@@ -12,17 +12,8 @@ import api from '../api';
 import LogoImg from '../assets/images/Rick_and_Morty_logo.svg';
 import CardCharacter from '../components/CardCharacter';
 import { characterListType } from '../types/character';
-import { makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles(theme => ({
-  container: {
-
-  }
-}));
 
 const Home: NextPage = () => {
-
-  const classes = useStyles();
 
   const router = useRouter();
   const [page, setPage] = useState<number>(1);
@@ -96,10 +87,10 @@ const Home: NextPage = () => {
                   variant='h5'
                   color="text.primary"
                 >
-                  Filtros
+                  Filters
                 </Typography>
                 <TextField
-                  label="Nome do personagem"
+                  label="Character"
                   variant='filled'
                   size='medium'
                   fullWidth
@@ -112,7 +103,7 @@ const Home: NextPage = () => {
                   variant='contained'
                   type='submit'
                 >
-                  Buscar
+                  Search
                 </Button>
               </Box>
             </form>
@@ -121,7 +112,7 @@ const Home: NextPage = () => {
       </Stack>
       <Box mt={10} height="100%">
         <Typography variant='subtitle1' align='right' mb={1}>
-          Personagens encontrados {data?.data.info.count || '0'}
+          Results {data?.data.info.count || '0'}
         </Typography>
         <Grid container spacing={2}>
           {data?.data?.results.map((character) => (
