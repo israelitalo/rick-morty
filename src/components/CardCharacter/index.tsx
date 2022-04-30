@@ -47,7 +47,7 @@ const CardCharacter = ({ character }: CardCharacterProps) => {
               Details
             </Button>
           </Box>
-          <Box display="flex" flex={0.6} height="100%">
+          <Box display="flex" flex={0.6}>
             <CardMedia
               component="img"
               height="100%"
