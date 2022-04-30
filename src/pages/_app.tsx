@@ -1,17 +1,21 @@
-import * as React from 'react';
-import type { AppProps } from 'next/app';
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-
-import createEmotionCache from '../utility/createEmotionCache';
-import { theme } from '../styles/theme';
 import '../styles/global.css';
 
+import * as React from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
+
+import { CacheProvider, EmotionCache } from '@emotion/react';
+
+import { AppProvider } from '../hooks';
+import createEmotionCache from '../utility/createEmotionCache';
+
+import type { AppProps } from 'next/app';
+
+const queryClient = new QueryClient();
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
@@ -23,10 +27,12 @@ const MyApp: React.FunctionComponent<MyAppProps> = (props) => {
 
   return (
     <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <AppProvider>
+          <Component {...pageProps} />
+        </AppProvider>
+        <ReactQueryDevtools initialIsOpen={false}></ReactQueryDevtools>
+      </QueryClientProvider>
     </CacheProvider>
   );
 };
