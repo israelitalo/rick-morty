@@ -9,6 +9,9 @@ interface CardCharacterProps {
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
+  root: {
+    width: '100%',
+  },
   image: {
     transition: 'transform .3s',
     '&:hover': {
@@ -21,22 +24,30 @@ const CardCharacter = ({ character }: CardCharacterProps) => {
   const classes = useStyles();
   return (
     <div>
-      <Card sx={{ maxWidth: 345 }}>
+      <Card className={classes.root}>
         <Stack direction="row" display="flex">
-          <Box display="flex" flex={1} flexDirection="column" p={2}>
-            <Typography gutterBottom variant="h5" component="div">
-              Lizard
+          <Box display="flex" flex={1} flexDirection="column" p={1}>
+            <Typography gutterBottom variant="h5">
+              {character.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Lizards are a widespread group of squamate reptiles, with over 6,000
-              species, ranging across all continents except Antarctica
+            <Typography gutterBottom variant="body1" color="text.primary">
+              {character.species} - {character.gender} - {character.status}
             </Typography>
+            <Typography gutterBottom variant="body1" color="text.secondary">
+              Origin:
+            </Typography>
+            <Typography gutterBottom variant="body2" color="text.primary">
+              {character.origin?.name || 'unknown'}
+            </Typography>
+            <Button color="primary" fullWidth variant='contained'>
+              Detalhes
+            </Button>
           </Box>
-          <Box display="flex" flex={1}>
+          <Box display="flex" flex={0.6}>
             <CardMedia
               component="img"
               height="100%"
-              image="https://rickandmortyapi.com/api/character/avatar/2.jpeg"
+              image={character.image}
               className={classes.image}
               alt={character.name}
             />
