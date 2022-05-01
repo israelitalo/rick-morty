@@ -46,13 +46,13 @@ const Home: NextPage = () => {
     }
   );
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handlePage = (_: any, value: number) => {
     setPage(value);
     router.push(`?page=${value}&name=${name}`, undefined, { shallow: true });
+    window.scrollTo({
+      top: 20,
+      behavior: 'smooth',
+    });
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
