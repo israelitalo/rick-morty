@@ -1,7 +1,1 @@
-import axios from "axios";
-
-const api = axios.create({
-  baseURL: "https://rickandmortyapi.com/api",
-});
-
-export default api;
+export const BASE_URL = "https://rickandmortyapi.com/graphql";

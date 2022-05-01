@@ -14,17 +14,25 @@ export type characterType = {
     url: string;
   };
   image: string;
-  episode: string[];
+  episode: Array<{
+    name: string;
+  }>;
   url: string;
   created: string;
 };
 
+export type characterDetailType = {
+  character: characterType;
+};
+
 export type characterListType = {
-  info: {
-    count: number;
-    pages: number;
-    next: null | string;
-    prev: null | string;
+  characters: {
+    info: {
+      count: number;
+      pages: number;
+      next: null | string;
+      prev: null | string;
+    };
+    results: characterType[];
   };
-  results: characterType[];
 };

@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { gql, request } from 'graphql-request';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
@@ -8,7 +9,7 @@ import {
   Box, Button, Container, Grid, Pagination, Stack, TextField, Typography
 } from '@mui/material';
 
-import api from '../api';
+import { BASE_URL } from '../api';
 import LogoImg from '../assets/images/Rick_and_Morty_logo.svg';
 import CardCharacter from '../components/CardCharacter';
 import { characterListType } from '../types/character';
@@ -20,10 +21,24 @@ const Home: NextPage = () => {
   const [name, setName] = useState<string>('');
   const [inputChange, setInputChange] = useState('');
 
-  const { data } = useQuery(
+  const { data } = useQuery<characterListType, Error>(
     ['characters', page, name],
     async () =>
-      await api.get<characterListType>(`/character/?page=${page}&name=${name}`),
+      await request(BASE_URL,
+        gql`query {
+          characters(page: ${page}, filter: {name: "${name}"} ) {
+            info {
+              count pages next prev
+            }
+            results {
+              id name status species type gender image
+              origin {
+                name
+              }
+            }
+          }
+        }`
+      ),
     {
       keepPreviousData: true,
       refetchOnMount: false,
@@ -34,6 +49,10 @@ const Home: NextPage = () => {
   const handlePage = (_: any, value: number) => {
     setPage(value);
     router.push(`?page=${value}&name=${name}`, undefined, { shallow: true });
+    window.scrollTo({
+      top: 20,
+      behavior: 'smooth',
+    });
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -112,10 +131,10 @@ const Home: NextPage = () => {
       </Stack>
       <Box mt={10} height="100%">
         <Typography variant='subtitle1' align='right' mb={1}>
-          Results {data?.data.info.count || '0'}
+          Results {data?.characters.info.count || '0'}
         </Typography>
         <Grid container spacing={2}>
-          {data?.data?.results.map((character) => (
+          {data?.characters.results.map((character) => (
             <Grid key={character.id} item xs={12} sm={6} md={4} lg={4} xl={4} p={0}>
               <CardCharacter character={character} />
             </Grid>
@@ -123,7 +142,7 @@ const Home: NextPage = () => {
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12} mb={2}>
             <Stack display="flex" alignItems="center">
               <Pagination
-                count={data?.data.info.pages}
+                count={data?.characters.info.pages}
                 color='primary'
                 className='pagination'
                 page={page}
