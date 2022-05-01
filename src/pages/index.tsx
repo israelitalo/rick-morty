@@ -11,7 +11,7 @@ import {
 import api from '../api';
 import LogoImg from '../assets/images/Rick_and_Morty_logo.svg';
 import CardCharacter from '../components/CardCharacter';
-import { characterListType } from '../types/character';
+import { characterListType, characterType } from '../types/character';
 
 const Home: NextPage = () => {
 
@@ -34,6 +34,10 @@ const Home: NextPage = () => {
   const handlePage = (_: any, value: number) => {
     setPage(value);
     router.push(`?page=${value}&name=${name}`, undefined, { shallow: true });
+    window.scrollTo({
+      top: 20,
+      behavior: 'smooth',
+    });
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -115,7 +119,7 @@ const Home: NextPage = () => {
           Results {data?.data.info.count || '0'}
         </Typography>
         <Grid container spacing={2}>
-          {data?.data?.results.map((character) => (
+          {data?.data?.results.map((character: characterType) => (
             <Grid key={character.id} item xs={12} sm={6} md={4} lg={4} xl={4} p={0}>
               <CardCharacter character={character} />
             </Grid>
