@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import request, { gql } from 'graphql-request';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -8,9 +9,9 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import api from '../../api';
+import { BASE_URL } from '../../api';
 import LogoImg from '../../assets/images/Rick_and_Morty_logo.svg';
-import { characterType } from '../../types/character';
+import { characterDetailType } from '../../types/character';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -31,10 +32,25 @@ const PageCharacterDetail: NextPage = () => {
 
   const classes = useStyles();
 
-  const { isLoading, data } = useQuery(
-    ['characters'],
+  const { data, isLoading } = useQuery<characterDetailType, Error>(
+    ['character'],
     async () =>
-      await api.get<characterType>(`/character/${id}`),
+      await request(BASE_URL,
+        gql`query {
+          character(id: ${id}) {
+            id name image
+            location {
+              name
+            }
+            origin {
+              name
+            }
+            episode {
+              name
+            }
+          }
+        }`
+      ),
     {
       keepPreviousData: true,
       refetchOnWindowFocus: false,
@@ -54,10 +70,10 @@ const PageCharacterDetail: NextPage = () => {
         </Box>
       }
 
-      {data?.data && !isLoading &&
+      {data?.character && !isLoading &&
         <Box gap={2} mb={5} display="flex" justifyContent="center" flexDirection="column" alignItems="center">
           <Typography variant='h4' textAlign="center" mb={2}>
-            {data.data?.name}
+            {data.character.name}
           </Typography>
 
           <Card component={Box} width={250}>
@@ -66,8 +82,8 @@ const PageCharacterDetail: NextPage = () => {
               height="100%"
               width="100%"
               className={classes.image}
-              image={data.data?.image}
-              alt={data.data?.name}
+              image={data.character.image}
+              alt={data.character.name}
             />
           </Card>
 
@@ -78,7 +94,7 @@ const PageCharacterDetail: NextPage = () => {
               </Typography>
 
               <Typography variant="body2" color="text.primary">
-                {data.data.origin?.name || 'unknown'}
+                {data.character.origin.name || 'unknown'}
               </Typography>
 
               <Divider />
@@ -88,7 +104,7 @@ const PageCharacterDetail: NextPage = () => {
               </Typography>
 
               <Typography variant="body2" color="text.primary">
-                {data.data.location?.name || 'unknown'}
+                {data.character.location.name || 'unknown'}
               </Typography>
 
               <Divider />
@@ -98,8 +114,8 @@ const PageCharacterDetail: NextPage = () => {
               </Typography>
 
               <Stack direction="row" alignItems="center" gap={1} flexWrap="wrap">
-                {data.data.episode.map(episode => (
-                  <Chip key={episode} label={episode} color='primary' size="small" />
+                {data.character.episode.map(episode => (
+                  <Chip key={episode.name} label={episode.name} color='primary' size="small" />
                 ))}
               </Stack>
 
