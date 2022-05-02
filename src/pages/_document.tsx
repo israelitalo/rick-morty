@@ -14,6 +14,41 @@ export default class MyDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
+          <meta name="description" content="Application next js integration with rick and morty api" />
+          <meta name="author" content="IsraelDev" />
+          <meta name="keywords" content="IsraelDev" />
+
+          <link rel="alternate" href="" />
+          <meta name="robots" content="index, follow" />
+
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+          <meta property="og:url" content="https://rick-morty-rouge.vercel.app/" />
+          <meta property="og:title" content="App Rick e Morty" />
+          <meta property="og:image" content="../assets/images/rick_little.png" />
+          <meta property="og:description" content="Aplicação Next js com integração com API Rick and Morty" />
+          <meta name="theme-color" content="#02bacf" />
+
+          <meta property="business:contact_data:country_name" content="Brasil" />
+          <meta property="business:contact_data:website" content="https://rick-morty-rouge.vercel.app/" />
+          <meta property="business:contact_data:region" content="PE" />
+          <meta property="business:contact_data:email" content="israel2012@gmail.com" />
+          <meta property="business:contact_data:phone_number" content="81 99530-9618" />
+
+
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:description" content="Aplicação Next js com integração com API Rick and Morty" />
+          <meta name="twitter:title" content="Next js - API Rick and Morty" />
+          <meta name="twitter:image" content="../assets/images/rick_little.png" />
+
+
+          <meta name="geo.placename" content="Pernambuco" />
+          <meta name="geo.region" content="BR" />
+          <meta name="description" content="Aplicação Next js com integração com API Rick and Morty" />
+          <link rel="canonical" href="https://rick-morty-rouge.vercel.app/" />
+
+          <meta property="og:type" content="website" />
+          <meta property="og:locale" content="pt_BR" />
+          <meta name="format-detection" content="telephone=no" />
         </Head>
         <body>
           <Main />
